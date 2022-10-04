@@ -125,6 +125,7 @@ class Solver():
         x0 = self.b
         c = self.a 
         r = 1 
+        # if для a 
         while (self.e <= r):
             x1 = x0 - (5 * x0 - 8 * sp.ln(x0) - 8) / (5 - 8/x0) # проводим касательную
             z = c - (5 * c - 8 * sp.ln(c) - 8) * (x0-c) /  ((5 * x0 - 8 * sp.ln(x0) - 8) - (5 * c - 8 * sp.ln(c) - 8))
@@ -133,6 +134,8 @@ class Solver():
             c = z              
             self.table_combine_method.add_row([iteration, x0, c, x1, z, r])
             iteration += 1 
+        #else 
+            #while для b 
       
         print(self.table_combine_method)
         print(f'Ответ получен в {iteration - 1} итерации\nОтвет: {Fore.GREEN}{x1}{Style.RESET_ALL}')
