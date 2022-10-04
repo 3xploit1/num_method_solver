@@ -23,7 +23,7 @@ class Solver():
         self.a = a
         self.b = b 
         self.x = sp.Symbol('x')
-        self.func = 5 * self.x - 8 * sp.log(self.x) - 8
+        self.func = 5 * self.x - 8 * sp.ln(self.x) - 8
         #x^3 + 5*x^2+6*x
         # self.func = sp.Pow(self.x,3)+5*sp.Pow(self.x,2)+6*self.x
         self.set_table_combine_method()
