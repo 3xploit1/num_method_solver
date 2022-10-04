@@ -25,7 +25,7 @@ class Solver():
         self.x = sp.Symbol('x')
         self.func = 5 * self.x - 8 * sp.log(self.x) - 8
         #x^3 + 5*x^2+6*x
-        self.func = sp.Pow(self.x,3)+5*sp.Pow(self.x,2)+6*self.x
+        # self.func = sp.Pow(self.x,3)+5*sp.Pow(self.x,2)+6*self.x
         self.set_table_combine_method()
         self.set_table_simple_iteration_method()
         self.get_solv_combine_method()
@@ -76,16 +76,27 @@ class Solver():
         '''
         Суть метода - сужение интервала изоляции с двух сторон 
         
-        На одной стороне сужение с помощью хорды на другой с и спользованием касательной          
+        На одной стороне сужение с помощью хорды на другой 
+        с использованием касательной  
+        
+        Формулы  
+        ======================================================
+        
+        Значение по недостатку --> метод касательных
+        
+        `x1 = x0 - f(x0) / f'(x)`
+        
+        Значение по избытку --> метод хорд
+        
+        `z = c - f'(c) * (x0 - c) / (f(x0) - f(c))`      
         '''
         
         self.get_about_method(flag=1)
         self.get_start_data()
-        # 5 * self.x - 8 * sp.log(self.x) - 8
         derivative_f = self.func.diff(self.x)
         derivative_f_2_order = derivative_f.diff(self.x)
-        f_a = sp.Pow(self.a,3)+5*sp.Pow(self.a,2)+6*(self.a) # f(-2.5)
-        f_b = sp.Pow(self.b,3)+5*sp.Pow(self.b,2)+6*(self.b) # f(-1.7)  x^3 + 5*x^2+6*x
+        f_a = 5 * self.a * sp.ln(self.a) - 8  
+        f_b = 5 * self.b * sp.ln(self.b) - 8
         f_a_derivative = derivative_f.subs(self.x, self.a)
         f_b_derivative = derivative_f.subs(self.x, self.b)
         f_a_derivative_2_order = derivative_f_2_order.subs(self.x, self.a)
@@ -103,7 +114,7 @@ class Solver():
         try:
             if (f_a * f_a_derivative_2_order > 0): 
                 print((f'Неподвижна в точке a =>  {Fore.GREEN}по недостатку методом касательной \n\t\t\t по избытку методом хорд{Style.RESET_ALL}'))
-            if (f_b * f_a_derivative_2_order > 0): 
+            elif (f_b * f_a_derivative_2_order > 0): 
                 print(f'Неподвижна в точке b =>  {Fore.GREEN}по недостатку методом хорд \n\t\t\t по избытку методом касательных{Style.RESET_ALL}')     
             else: 
                 raise    
@@ -113,10 +124,10 @@ class Solver():
         iteration = 1
         x0 = self.b
         c = self.a 
-        r = 1 # заглушка 
+        r = 1 
         while (self.e <= r):
-            x1 = x0-(sp.Pow(x0,3) + 5 * sp.Pow(x0, 2) + 6 * x0) / (3 * sp.Pow(x0, 2) + 10 * x0 + 6) # проводим касательную
-            z = c-(sp.Pow(c,3) + 5 * sp.Pow(c, 2) + 6 * c) * (x0 - c) / ((sp.Pow(x0, 3) + 5 * sp.Pow(x0, 2) + 6 * x0) - (sp.Pow(c, 3) + 5 * sp.Pow(c, 2) + 6 * c)) # проводим хорду 
+            x1 = x0 - (5 * x0 - 8 * sp.ln(x0) - 8) / (5 - 8/x0) # проводим касательную
+            z = c - (5 * c - 8 * sp.ln(c) - 8) * (x0-c) /  ((5 * x0 - 8 * sp.ln(x0) - 8) - (5 * c - 8 * sp.ln(c) - 8))
             r = abs(x1 - z) # итерационная разность 
             x0 = x1
             c = z              
@@ -132,5 +143,5 @@ class Solver():
 
 
 if __name__ == "__main__": 
-    solv = Solver(1e-5, -2.5, -1.7)
+    solv = Solver(1e-5, 3.0, 3.9)
         
