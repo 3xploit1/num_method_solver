@@ -92,7 +92,7 @@ class Solver():
         f_b_derivative_2_order = derivative_f_2_order.subs(self.x, self.b)
         
         print(f"f`(x) = {derivative_f}\n"
-              f"f``(x) = {derivative_f_2_order}\n"
+              f"f''(x) = {derivative_f_2_order}\n"
               f"f(a) = {f_a}\n"
               f"f(b) = {f_b}\n"
               f"f'(a) = {f_a_derivative}\n"
@@ -100,10 +100,15 @@ class Solver():
               f"f''(a) = {f_a_derivative_2_order}\n"
               f"f''(b) = {f_b_derivative_2_order}\n")
 
-        if (f_a * f_a_derivative_2_order > 0): 
-            print((f'Неподвижна в точке a =>  {Fore.GREEN}по недостатку методом касательной \n\t\t\t по избытку методом хорд{Style.RESET_ALL}'))
-        if (f_b * f_a_derivative_2_order > 0): 
-            print(f'Неподвижна в точке b =>  {Fore.GREEN}по недостатку методом хорд \n\t\t\t по избытку методом касательных{Style.RESET_ALL}')        
+        try:
+            if (f_a * f_a_derivative_2_order > 0): 
+                print((f'Неподвижна в точке a =>  {Fore.GREEN}по недостатку методом касательной \n\t\t\t по избытку методом хорд{Style.RESET_ALL}'))
+            if (f_b * f_a_derivative_2_order > 0): 
+                print(f'Неподвижна в точке b =>  {Fore.GREEN}по недостатку методом хорд \n\t\t\t по избытку методом касательных{Style.RESET_ALL}')     
+            else: 
+                raise    
+        except: 
+            print(f'{Fore.RED}Скрипт не может вернуть ответ{Style.RESET_ALL}')
         
         iteration = 1
         x0 = self.b
