@@ -13,9 +13,9 @@ class Solver():
     Класс реализации 
     
     Аргументы: 
-        - погрешность e 
-        - левый конец интервала a
-        - правый конец интервала b 
+        - погрешность -> e 
+        - левый конец интервала -> a
+        - правый конец интервала -> b 
     '''
     def __init__(self, e, a, b):
         init() # colorama
@@ -23,7 +23,7 @@ class Solver():
         self.a = a
         self.b = b 
         self.x = sp.Symbol('x')
-        # self.func = 5 * self.x - 8 * sp.log(self.x) - 8
+        self.func = 5 * self.x - 8 * sp.log(self.x) - 8
         #x^3 + 5*x^2+6*x
         self.func = sp.Pow(self.x,3)+5*sp.Pow(self.x,2)+6*self.x
         self.set_table_combine_method()
@@ -81,7 +81,7 @@ class Solver():
         
         self.get_about_method(flag=1)
         self.get_start_data()
-        
+        # 5 * self.x - 8 * sp.log(self.x) - 8
         derivative_f = self.func.diff(self.x)
         derivative_f_2_order = derivative_f.diff(self.x)
         f_a = sp.Pow(self.a,3)+5*sp.Pow(self.a,2)+6*(self.a) # f(-2.5)
